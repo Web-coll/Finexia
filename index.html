@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Financiera - Interés y Depreciación</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <header class="bg-indigo-700 text-white py-8 shadow-lg">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-3xl font-bold">Calculadora Financiera</h1>
+            <p class="mt-2 text-indigo-100">Interés Simple y Depreciación de Activos</p>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-12 grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Sección Interés Simple -->
+        <section class="bg-white rounded-xl shadow-md overflow-hidden border border-slate-200">
+            <div class="p-6 bg-indigo-50 border-b border-indigo-100">
+                <h2 class="text-xl font-semibold text-indigo-900 flex items-center">
+                    <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    Interés Simple
+                </h2>
+                <p class="text-sm text-indigo-700 mt-1">Calcula el interés generado por un capital inicial.</p>
+            </div>
+            <div class="p-6 space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-1">Capital Inicial (P)</label>
+                    <input type="number" id="principal" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all outline-none" placeholder="Ej: 1000">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-1">Tasa de Interés Anual (%)</label>
+                    <input type="number" id="rate" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all outline-none" placeholder="Ej: 5">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-1">Tiempo (Años)</label>
+                    <input type="number" id="time" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all outline-none" placeholder="Ej: 2">
+                </div>
+                <button onclick="calcularInteres()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-lg transition-colors shadow-sm">
+                    Calcular Interés
+                </button>
+                <div id="resultadoInteres" class="mt-6 p-4 rounded-lg bg-slate-50 border border-slate-200 hidden">
+                    <p class="text-sm text-slate-600">Interés Generado:</p>
+                    <p class="text-2xl font-bold text-indigo-700" id="valorInteres">$0.00</p>
+                    <p class="text-sm text-slate-600 mt-2">Monto Total Final:</p>
+                    <p class="text-xl font-semibold text-slate-800" id="totalInteres">$0.00</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección Depreciación de Activos -->
+        <section class="bg-white rounded-xl shadow-md overflow-hidden border border-slate-200">
+            <div class="p-6 bg-teal-50 border-b border-teal-100">
+                <h2 class="text-xl font-semibold text-teal-900 flex items-center">
+                    <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                    Depreciación de Activos
+                </h2>
+                <p class="text-sm text-teal-700 mt-1">Método de línea recta para depreciación anual.</p>
+            </div>
+            <div class="p-6 space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-1">Costo del Activo</label>
+                    <input type="number" id="cost" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all outline-none" placeholder="Ej: 5000">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-1">Valor de Salvamento</label>
+                    <input type="number" id="salvage" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all outline-none" placeholder="Ej: 500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-1">Vida Útil (Años)</label>
+                    <input type="number" id="life" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all outline-none" placeholder="Ej: 5">
+                </div>
+                <button onclick="calcularDepreciacion()" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 rounded-lg transition-colors shadow-sm">
+                    Calcular Depreciación
+                </button>
+                <div id="resultadoDepreciacion" class="mt-6 p-4 rounded-lg bg-slate-50 border border-slate-200 hidden">
+                    <p class="text-sm text-slate-600">Depreciación Anual:</p>
+                    <p class="text-2xl font-bold text-teal-700" id="valorDepreciacion">$0.00</p>
+                    <p class="text-sm text-slate-600 mt-2">Depreciación Mensual:</p>
+                    <p class="text-xl font-semibold text-slate-800" id="mensualDepreciacion">$0.00</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="mt-auto py-8 text-center text-slate-500 text-sm">
+        <p>&copy; 2024 Calculadora Financiera. Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
